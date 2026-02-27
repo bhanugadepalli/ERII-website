@@ -3,13 +3,12 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { clerkClient } from "@clerk/nextjs/server";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-01-27.acacia",
-});
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(req: Request) {
   const body = await req.text();
-  const sig = headers().get("stripe-signature");
+  const hdrs = await headers();
+  const sig = hdrs.get("stripe-signature");
 
   let event: Stripe.Event;
 
@@ -43,7 +42,7 @@ export async function POST(req: Request) {
       const currency = (full.currency ?? "usd").toUpperCase();
       const receiptUrl = latestCharge?.receipt_url ?? null;
 
-      const clerk = clerkClient();
+      const clerk = await clerkClient();
 
       await clerk.users.updateUser(clerkUserId, {
         publicMetadata: {
