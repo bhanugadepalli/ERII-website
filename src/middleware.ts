@@ -1,19 +1,18 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
 
-const isProtectedRoute = createRouteMatcher(["/self-learning(.*)"]);
+const isProtectedRoute = createRouteMatcher([
+  "/self-learning(.*)",
+  "/billing(.*)",
+  "/admin(.*)",
+]);
 
 export default clerkMiddleware(async (auth, req) => {
-  if (!isProtectedRoute(req)) return NextResponse.next();
-
-  const { userId } = await auth();
-  if (!userId) {
-    return (await auth()).redirectToSignIn({ returnBackUrl: req.url });
+  if (isProtectedRoute(req)) {
+    const session = await auth();
+    if (!session || !session.userId) {
+      return new Response(null, { status: 401 });
+    }
   }
-
-  // Let the request through for now.
-  // We'll enforce "paid" access in the page itself (server check).
-  return NextResponse.next();
 });
 
 export const config = {

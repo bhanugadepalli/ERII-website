@@ -31,9 +31,32 @@ export async function POST(req: Request) {
     const clerkUserId = session.metadata?.clerkUserId;
 
     if (clerkUserId) {
+      // Fetch expanded session -> payment_intent -> latest_charge -> receipt_url
+      const full = await stripe.checkout.sessions.retrieve(session.id, {
+        expand: ["payment_intent", "payment_intent.latest_charge"],
+      });
+
+      const paymentIntent = full.payment_intent as Stripe.PaymentIntent | null;
+      const latestCharge = (paymentIntent?.latest_charge as Stripe.Charge | null) ?? null;
+
+      const amountTotal = full.amount_total ?? 149900; // cents fallback
+      const currency = (full.currency ?? "usd").toUpperCase();
+      const receiptUrl = latestCharge?.receipt_url ?? null;
+
       const clerk = clerkClient();
+
       await clerk.users.updateUser(clerkUserId, {
-        publicMetadata: { paidCourseAccess: true },
+        publicMetadata: {
+          paidCourseAccess: true,
+          role: (await clerk.users.getUser(clerkUserId)).publicMetadata?.role ?? undefined,
+          purchase: {
+            sessionId: full.id,
+            amount: amountTotal,
+            currency,
+            purchasedAt: new Date().toISOString(),
+            receiptUrl,
+          },
+        },
       });
     }
   }

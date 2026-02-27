@@ -9,8 +9,10 @@ export default async function SelfLearningPage() {
   if (!userId) return null;
 
   const user = await currentUser(); // ✅ no clerkClient required
-  const paid = Boolean(user?.publicMetadata?.paidCourseAccess);
-
+  const role = (user?.publicMetadata?.role as string | undefined) ?? "";
+const isAdmin = role === "admin";
+const paid = Boolean(user?.publicMetadata?.paidCourseAccess) || isAdmin;
+ 
   if (!paid) {
     return (
       <div className="bg-neutral-50">
