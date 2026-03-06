@@ -39,12 +39,13 @@ export default function SiteHeaderClient({
   const { user, isSignedIn } = useUser();
 
   const navItems = [
-    { name: "Programs", href: "/programs" },
-    { name: "Certifications", href: "/certifications" },
-    { name: "Advisory", href: "/advisory" },
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "/contact" },
-  ];
+  { name: "Programs", href: "/programs" },
+  { name: "Certifications", href: "/certifications" },
+  { name: "Advisory", href: "/advisory" },
+  { name: "Self-Learn Training", href: "/pricing" },
+  { name: "About", href: "/about" },
+  { name: "Contact", href: "/contact" },
+];
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [open, setOpen] = useState(false);

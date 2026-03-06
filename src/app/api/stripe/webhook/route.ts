@@ -3,26 +3,23 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { clerkClient } from "@clerk/nextjs/server";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-
 export async function POST(req: Request) {
+  const key = process.env.STRIPE_SECRET_KEY;
+  const secret = process.env.STRIPE_WEBHOOK_SECRET;
+
+  if (!key) return NextResponse.json({ error: "Missing STRIPE_SECRET_KEY" }, { status: 500 });
+  if (!secret) return NextResponse.json({ error: "Missing STRIPE_WEBHOOK_SECRET" }, { status: 500 });
+
+  const stripe = new Stripe(key);
+
   const body = await req.text();
-  const hdrs = await headers();
-  const sig = hdrs.get("stripe-signature");
+  const sig = (await headers()).get("stripe-signature");
 
   let event: Stripe.Event;
-
   try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      sig!,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    );
+    event = stripe.webhooks.constructEvent(body, sig!, secret);
   } catch (err: any) {
-    return NextResponse.json(
-      { error: `Webhook Error: ${err.message}` },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 });
   }
 
   if (event.type === "checkout.session.completed") {
@@ -30,32 +27,9 @@ export async function POST(req: Request) {
     const clerkUserId = session.metadata?.clerkUserId;
 
     if (clerkUserId) {
-      // Fetch expanded session -> payment_intent -> latest_charge -> receipt_url
-      const full = await stripe.checkout.sessions.retrieve(session.id, {
-        expand: ["payment_intent", "payment_intent.latest_charge"],
-      });
-
-      const paymentIntent = full.payment_intent as Stripe.PaymentIntent | null;
-      const latestCharge = (paymentIntent?.latest_charge as Stripe.Charge | null) ?? null;
-
-      const amountTotal = full.amount_total ?? 149900; // cents fallback
-      const currency = (full.currency ?? "usd").toUpperCase();
-      const receiptUrl = latestCharge?.receipt_url ?? null;
-
       const clerk = await clerkClient();
-
       await clerk.users.updateUser(clerkUserId, {
-        publicMetadata: {
-          paidCourseAccess: true,
-          role: (await clerk.users.getUser(clerkUserId)).publicMetadata?.role ?? undefined,
-          purchase: {
-            sessionId: full.id,
-            amount: amountTotal,
-            currency,
-            purchasedAt: new Date().toISOString(),
-            receiptUrl,
-          },
-        },
+        publicMetadata: { paidCourseAccess: true },
       });
     }
   }

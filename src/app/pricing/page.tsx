@@ -25,7 +25,7 @@ export default async function PricingPage() {
               className="border-l-4 pl-4 text-3xl font-semibold tracking-tight text-neutral-900 md:text-4xl"
               style={{ borderColor: ACCENT }}
             >
-              Pricing
+              Self-Learning Training 
             </h1>
 
             <p className="mt-4 text-sm leading-7 text-neutral-600">
