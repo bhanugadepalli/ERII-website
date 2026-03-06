@@ -1,27 +1,50 @@
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { auth, clerkClient } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 export default async function AdminPage() {
   const { userId } = await auth();
-  if (!userId) return null;
 
-  const user = await currentUser();
-  const role = (user?.publicMetadata?.role as string | undefined) ?? "";
+  if (!userId) redirect("/");
 
-  if (role !== "admin") {
-    return (
-      <div className="mx-auto max-w-3xl px-5 py-16">
-        <h1 className="text-2xl font-semibold text-neutral-900">Not authorized</h1>
-        <p className="mt-3 text-neutral-600">Admin access required.</p>
-      </div>
-    );
-  }
+  const { users } = await clerkClient();
+  const user = await users.getUser(userId);
+
+  const isAdmin = user.publicMetadata?.role === "admin";
+
+  if (!isAdmin) redirect("/");
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-16">
-      <h1 className="text-3xl font-semibold text-neutral-900">Admin</h1>
+      <h1 className="text-3xl font-semibold text-neutral-900">
+        Admin Dashboard
+      </h1>
+
       <p className="mt-3 text-neutral-600">
-        Placeholder: manage users, grant access, view purchases.
+        Manage users and course access.
       </p>
+
+      <div className="mt-8 grid gap-6 md:grid-cols-3">
+        <div className="rounded-2xl border bg-white p-6">
+          <div className="font-semibold">Grant Course Access</div>
+          <p className="text-sm text-neutral-600 mt-2">
+            Manually give users paid course access.
+          </p>
+        </div>
+
+        <div className="rounded-2xl border bg-white p-6">
+          <div className="font-semibold">View Purchases</div>
+          <p className="text-sm text-neutral-600 mt-2">
+            Review Stripe purchases and course enrollment.
+          </p>
+        </div>
+
+        <div className="rounded-2xl border bg-white p-6">
+          <div className="font-semibold">User Management</div>
+          <p className="text-sm text-neutral-600 mt-2">
+            Manage course access roles.
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

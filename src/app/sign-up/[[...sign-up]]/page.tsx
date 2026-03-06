@@ -1,27 +1,29 @@
+"use client";
+
 import { SignUp } from "@clerk/nextjs";
 
-export default function Page() {
-  const pk = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+export default function SignUpPage() {
   return (
-    
-    <div className="mx-auto max-w-6xl px-5 py-16">
-      <div className="mb-6 rounded-xl border border-red-300 bg-red-50 p-4 text-sm text-red-800">
-        DEBUG: sign-up route is rendering
-      </div>
+    <div className="flex min-h-[70vh] items-center justify-center bg-neutral-50 px-5 py-16">
+      <div className="w-full max-w-md rounded-2xl border border-neutral-200 bg-white p-8 shadow-sm">
+        <h1 className="text-2xl font-semibold text-neutral-900">
+          Create your account
+        </h1>
 
-      <div className="mb-6 rounded-xl border border-blue-300 bg-blue-50 p-4 text-sm text-blue-800">
-        DEBUG: Clerk component should appear below
-      </div>
-      
-       <div className="mb-6 rounded-xl border border-yellow-300 bg-yellow-50 p-4 text-sm text-yellow-900">
-        DEBUG: Publishable key present?{" "}
-        <strong>{pk ? `YES (${pk.slice(0, 12)}...)` : "NO"}</strong>
-      </div>
+        <p className="mt-2 text-sm text-neutral-600">
+          Sign up to access ERII training programs and certification pathways.
+        </p>
 
-      <SignUp />
-
-      <div className="mt-6 rounded-xl border border-green-300 bg-green-50 p-4 text-sm text-green-800">
-        DEBUG: If you can see this but no sign-up form, Clerk is not initializing correctly.
+        <div className="mt-6">
+          <SignUp
+            appearance={{
+              elements: {
+                card: "shadow-none border-0",
+              },
+            }}
+            redirectUrl="/pricing"
+          />
+        </div>
       </div>
     </div>
   );
