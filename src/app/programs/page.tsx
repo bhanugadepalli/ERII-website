@@ -131,17 +131,17 @@ export default function ProgramsPage() {
           />
 
           <Card
-            title="Enterprise Resiliency Management"
-            desc="Enterprise Resiliency Planning (Business Continuity Planning), IT Disaster Recovery, IT Service Continuity, Technology Resiliency, Cyber Resiliency, Complex Incident and Crisis Management, and Executive Tabletop Exercise simulation."
-            bullets={[
-              "Business continuity planning",
-              "IT disaster recovery & service continuity",
-              "Technology & cyber resiliency",
-              "Incident, crisis, and tabletop simulation",
-            ]}
-            cta="Request syllabus"
-            href="/contact"
-          />
+          title="Enterprise Resiliency Management"
+          desc="A comprehensive program focused on designing, governing, and operationalizing enterprise resiliency capabilities. Leaders learn how to structure continuity strategies, integrate technology recovery frameworks, and prepare organizations to respond effectively to major operational disruptions and cyber incidents."
+          bullets={[
+          "Business continuity planning",
+         "IT disaster recovery & service continuity",
+        "Technology & cyber resiliency",
+        "Incident, crisis, and tabletop simulation",
+      ]}
+  cta="Request syllabus"
+  href="/contact"
+/>
         </div>
       </section>
 
