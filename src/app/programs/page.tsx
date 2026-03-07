@@ -48,7 +48,6 @@ const Card = ({
 export default function ProgramsPage() {
   return (
     <div className="bg-neutral-50">
-      {/* Hero Wash */}
       <div
         style={{
           background: `linear-gradient(to bottom, ${TINT}, white, #FAFAFA)`,
@@ -90,9 +89,8 @@ export default function ProgramsPage() {
         </section>
       </div>
 
-      {/* Programs Grid */}
       <section className="mx-auto max-w-6xl px-5 pb-14">
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           <Card
             title="Data Center Build & Operations"
             desc="End-to-end facility and operations mastery covering capacity planning, power strategy, cooling architecture, commissioning governance, and operational risk management."
@@ -131,17 +129,29 @@ export default function ProgramsPage() {
             cta="See sample models"
             href="/contact"
           />
+
+          <Card
+            title="Enterprise Resiliency Management"
+            desc="Enterprise Resiliency Planning (Business Continuity Planning), IT Disaster Recovery, IT Service Continuity, Technology Resiliency, Cyber Resiliency, Complex Incident and Crisis Management, and Executive Tabletop Exercise simulation."
+            bullets={[
+              "Business continuity planning",
+              "IT disaster recovery & service continuity",
+              "Technology & cyber resiliency",
+              "Incident, crisis, and tabletop simulation",
+            ]}
+            cta="Request syllabus"
+            href="/contact"
+          />
         </div>
       </section>
 
-      {/* Enterprise Delivery Section */}
       <section className="mx-auto max-w-6xl px-5 pb-16">
         <div className="rounded-3xl border border-neutral-200 bg-white p-8 shadow-sm">
           <h2 className="text-xl font-semibold text-neutral-900">
             Enterprise Delivery Options
           </h2>
 
-          <p className="mt-3 text-sm leading-7 text-neutral-600 max-w-3xl">
+          <p className="mt-3 max-w-3xl text-sm leading-7 text-neutral-600">
             Programs can be delivered as individual executive enrollments,
             structured enterprise cohorts, or customized internal intensives
             aligned to your organization’s infrastructure roadmap.

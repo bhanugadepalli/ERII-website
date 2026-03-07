@@ -43,7 +43,7 @@ export default function CertificationsPage() {
             </h1>
 
             <p className="mt-4 text-sm leading-7 text-neutral-600">
-              CEDAI™ credentials are earned through ERIA Advisory training
+              Certified Enterprise Data Center & AI Infrastructure (CEDAI™) credentials are earned through ERIA Advisory training
               pathways. We do not sell standalone exams—certification is issued
               upon program completion and applied evaluation.
             </p>
@@ -79,7 +79,7 @@ export default function CertificationsPage() {
           />
           <LevelCard
             level="Level 2"
-            title="CEDAI™ (Professional)"
+            title="CEDAI™-P (Professional)"
             desc="Architecture + financial reasoning + governance execution for enterprise-scale environments."
           />
           <LevelCard

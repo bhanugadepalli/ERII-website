@@ -38,11 +38,11 @@ export default function SiteHeaderClient({
   const pathname = usePathname();
   const { user, isSignedIn } = useUser();
 
-  const navItems = [
+const navItems = [
   { name: "Programs", href: "/programs" },
-  { name: "Certifications", href: "/certifications" },
+  { name: "Training", href: "/pricing" },
   { name: "Advisory", href: "/advisory" },
-  { name: "Self-Learn Training", href: "/pricing" },
+  { name: "Certifications", href: "/certifications" },
   { name: "About", href: "/about" },
   { name: "Contact", href: "/contact" },
 ];
