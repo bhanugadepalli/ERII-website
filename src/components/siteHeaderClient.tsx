@@ -10,7 +10,15 @@ const PRIMARY = "#0B3D91";
 const ACCENT = "#1F5FBF";
 const TINT = "#EEF3FB";
 
-function NavLink({ href, label, active }: { href: string; label: string; active: boolean }) {
+function NavLink({
+  href,
+  label,
+  active,
+}: {
+  href: string;
+  label: string;
+  active: boolean;
+}) {
   return (
     <Link
       href={href}
@@ -36,16 +44,15 @@ export default function SiteHeaderClient({
   isAdmin: boolean;
 }) {
   const pathname = usePathname();
-  const { user, isSignedIn } = useUser();
+  const { user } = useUser();
 
-const navItems = [
-  { name: "Programs", href: "/programs" },
-  { name: "Training", href: "/pricing" },
-  { name: "Advisory", href: "/advisory" },
-  { name: "Certifications", href: "/certifications" },
-  { name: "About", href: "/about" },
-  { name: "Contact", href: "/contact" },
-];
+  const navItems = [
+    { name: "Home", href: "/" },
+    { name: "Advisory", href: "/advisory" },
+    { name: "Programs", href: "/programs" },
+    { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" },
+  ];
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [open, setOpen] = useState(false);
@@ -55,21 +62,23 @@ const navItems = [
       if (!dropdownRef.current) return;
       if (!dropdownRef.current.contains(e.target as Node)) setOpen(false);
     };
+
     document.addEventListener("mousedown", onDocClick);
     return () => document.removeEventListener("mousedown", onDocClick);
   }, []);
 
   const initials =
-    (user?.firstName?.[0] ?? "") + (user?.lastName?.[0] ?? "") || (user?.emailAddresses?.[0]?.emailAddress?.[0] ?? "U");
+    (user?.firstName?.[0] ?? "") +
+      (user?.lastName?.[0] ?? "") ||
+    (user?.emailAddresses?.[0]?.emailAddress?.[0] ?? "U");
 
   return (
     <header className="sticky top-0 z-50 border-b border-neutral-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
       <div className="mx-auto flex max-w-6xl items-center px-5 py-3">
-        {/* Logo */}
         <Link href="/" className="flex items-center">
           <Image
             src="/logo-header.png"
-            alt="Enterprise Resiliency & Infrastructure Institute"
+            alt="ERI Advisory"
             width={520}
             height={160}
             priority
@@ -77,7 +86,6 @@ const navItems = [
           />
         </Link>
 
-        {/* Main nav */}
         <nav className="ml-12 hidden items-center gap-8 md:flex">
           {navItems.map((item) => (
             <NavLink
@@ -88,42 +96,40 @@ const navItems = [
             />
           ))}
 
-          {/* Paid-only nav link */}
           {showCourse && (
             <NavLink
               href="/self-learning"
-              label="Course"
+              label="Training Portal"
               active={pathname.startsWith("/self-learning")}
             />
           )}
         </nav>
 
-        {/* Right side */}
         <div className="ml-auto flex items-center gap-3">
           <SignedOut>
             <Link
               href="/sign-in"
-              className="hidden md:inline-flex items-center rounded-xl border bg-white px-4 py-2 text-sm font-semibold text-neutral-900 hover:bg-neutral-50 transition"
+              className="hidden md:inline-flex items-center rounded-xl border bg-white px-4 py-2 text-sm font-semibold text-neutral-900 transition hover:bg-neutral-50"
               style={{ borderColor: ACCENT }}
             >
-              Sign in
+              Sign In
             </Link>
+
             <Link
-              href="/sign-up"
+              href="/contact"
               className="inline-flex items-center rounded-xl px-4 py-2 text-sm font-semibold text-white transition hover:opacity-95"
               style={{ backgroundColor: PRIMARY }}
             >
-              Create account
+              Schedule Consultation
             </Link>
           </SignedOut>
 
           <SignedIn>
-            {/* Account dropdown */}
             <div className="relative" ref={dropdownRef}>
               <button
                 type="button"
                 onClick={() => setOpen((s) => !s)}
-                className="inline-flex items-center gap-3 rounded-xl border border-neutral-200 bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-sm hover:bg-neutral-50 transition"
+                className="inline-flex items-center gap-3 rounded-xl border border-neutral-200 bg-white px-3 py-2 text-sm font-semibold text-neutral-900 shadow-sm transition hover:bg-neutral-50"
               >
                 <span
                   className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-white"
@@ -131,9 +137,11 @@ const navItems = [
                 >
                   {initials.toUpperCase()}
                 </span>
+
                 <span className="hidden md:inline">
-                  {user?.firstName ? `${user.firstName}` : "Account"}
+                  {user?.firstName || "Account"}
                 </span>
+
                 <span className="text-neutral-400">▾</span>
               </button>
 
@@ -153,15 +161,16 @@ const navItems = [
                         className="block rounded-xl px-3 py-2 font-medium text-neutral-800 hover:bg-neutral-50"
                         onClick={() => setOpen(false)}
                       >
-                        Course
+                        Training Portal
                       </Link>
                     )}
+
                     <Link
                       href="/billing"
                       className="block rounded-xl px-3 py-2 font-medium text-neutral-800 hover:bg-neutral-50"
                       onClick={() => setOpen(false)}
                     >
-                      Billing history
+                      Billing History
                     </Link>
 
                     {isAdmin && (
@@ -176,13 +185,12 @@ const navItems = [
 
                     <div className="my-2 border-t border-neutral-200" />
 
-                    {/* Clerk sign-out endpoint (simple + reliable) */}
                     <Link
                       href="/sign-out"
                       className="block rounded-xl px-3 py-2 font-medium text-neutral-800 hover:bg-neutral-50"
                       onClick={() => setOpen(false)}
                     >
-                      Sign out
+                      Sign Out
                     </Link>
                   </div>
                 </div>

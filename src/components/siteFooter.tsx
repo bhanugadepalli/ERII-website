@@ -1,40 +1,67 @@
 import Link from "next/link";
 import { Container } from "./UI";
 
-export default function siteFooter() {
+export default function SiteFooter() {
   return (
     <footer className="border-t border-neutral-200 bg-white">
       <Container>
-        <div className="grid gap-8 py-10 md:grid-cols-3">
+        <div className="grid gap-10 py-12 md:grid-cols-[1.2fr_0.8fr_0.8fr]">
           <div>
-            <div className="text-sm font-semibold text-neutral-900">ERII</div>
-            <p className="mt-2 text-sm leading-6 text-neutral-600">
-              Executive education and advisory services for enterprise data
-              center, AI infrastructure, and resiliency governance. Certifications
-              are issued as part of training pathways.
+            <div className="text-sm font-semibold uppercase tracking-[0.18em] text-neutral-900">
+              ERI Advisory
+            </div>
+            <p className="mt-3 max-w-md text-sm leading-6 text-neutral-600">
+              Advisory services for enterprise resilience, data center strategy,
+              infrastructure risk, cloud continuity, and mission-critical
+              operations.
             </p>
           </div>
 
           <div>
             <div className="text-sm font-semibold text-neutral-900">Explore</div>
             <ul className="mt-3 space-y-2 text-sm text-neutral-600">
-              <li><Link className="hover:underline" href="/programs">Programs</Link></li>
-              <li><Link className="hover:underline" href="/certifications">Certifications</Link></li>
-              <li><Link className="hover:underline" href="/advisory">Advisory</Link></li>
+              <li>
+                <Link className="transition hover:text-neutral-900" href="/">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link className="transition hover:text-neutral-900" href="/advisory">
+                  Advisory
+                </Link>
+              </li>
+              <li>
+                <Link className="transition hover:text-neutral-900" href="/programs">
+                  Programs
+                </Link>
+              </li>
+              <li>
+                <Link className="transition hover:text-neutral-900" href="/about">
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link className="transition hover:text-neutral-900" href="/contact">
+                  Contact
+                </Link>
+              </li>
             </ul>
           </div>
 
           <div>
-            <div className="text-sm font-semibold text-neutral-900">Governance</div>
+            <div className="text-sm font-semibold text-neutral-900">Advisory Focus</div>
             <ul className="mt-3 space-y-2 text-sm text-neutral-600">
-              <li><Link className="hover:underline" href="/about">Ethics & principles</Link></li>
-              <li><Link className="hover:underline" href="/contact">Enterprise partnerships</Link></li>
+              <li>Enterprise resiliency</li>
+              <li>Data center strategy</li>
+              <li>Infrastructure risk</li>
+              <li>Cloud continuity</li>
+              <li>Operational readiness</li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-neutral-200 py-6 text-xs text-neutral-500">
-          © {2012} Enterprise Resiliency & Infrastructure Advisory (ERIA). All rights reserved.
+          © 2012 ERI Advisory. All rights reserved.
         </div>
       </Container>
     </footer>
